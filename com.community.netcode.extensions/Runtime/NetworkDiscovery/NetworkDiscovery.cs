@@ -150,14 +150,14 @@ public abstract class NetworkDiscovery<TBroadCast, TResponse> : MonoBehaviour
 
         m_Client = new UdpClient(port) {EnableBroadcast = true, MulticastLoopback = false};
 
-        _ = ListenAsync(isServer ? ReceiveBroadcastAsync : new Func<Task>(ReceiveResponseAsync));
-
         IsRunning = true;
+        
+        _ = ListenAsync(isServer ? ReceiveBroadcastAsync : new Func<Task>(ReceiveResponseAsync));
     }
 
     async Task ListenAsync(Func<Task> onReceiveTask)
     {
-        while (true)
+        while (IsRunning)
         {
             try
             {
